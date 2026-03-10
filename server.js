@@ -71,7 +71,15 @@ app.use('/api/ads', adsRoutes);
 // Dashboard routes with auth
 app.use('/dashboard', adminAuth, dashboardRoutes);
 
-// 404 handler
+// Serve static files (dashboard HTML, CSS, JS)
+app.use(express.static('public'));
+
+// Root redirect to dashboard
+app.get('/', (req, res) => {
+  res.redirect('/dashboard');
+});
+
+// 404 handler (comes after static files and routes)
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
