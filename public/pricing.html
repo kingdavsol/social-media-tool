@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Tool - Pricing</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 60px; }
+        .header h1 { font-size: 48px; margin-bottom: 20px; font-weight: 800; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .pricing-card { background: white; border-radius: 12px; padding: 40px 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .plan-name { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+        .plan-price { font-size: 48px; font-weight: 800; color: #667eea; margin-bottom: 5px; }
+        .cta-button { width: 100%; padding: 14px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 20px; }
+        .cta-button:hover { background: #5568d3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Social Media Automation</h1>
+            <p>Simple, transparent pricing. All plans include 14-day free trial.</p>
+        </div>
+        <div class="pricing-grid" id="pricing-grid"></div>
+    </div>
+    <script>
+        const PLANS = [
+            { id: 'FREE', name: 'Free', price: 0, accounts: 1 },
+            { id: 'STARTER', name: 'Starter', price: 4.99, accounts: 5 },
+            { id: 'PROFESSIONAL', name: 'Professional', price: 9.99, accounts: 20 },
+            { id: 'ENTERPRISE', name: 'Enterprise', price: 19.99, accounts: 50 }
+        ];
+        
+        PLANS.forEach(plan => {
+            const card = document.createElement('div');
+            card.className = 'pricing-card';
+            card.innerHTML = `
+                <h3 class="plan-name">${plan.name}</h3>
+                <div class="plan-price">$${plan.price}</div>
+                <p>${plan.accounts} accounts</p>
+                <button class="cta-button" onclick="subscribe('${plan.id}')">
+                    ${plan.price === 0 ? 'Get Started' : 'Start Trial'}
+                </button>
+            `;
+            document.getElementById('pricing-grid').appendChild(card);
+        });
+        
+        function subscribe(tier) {
+            if (tier === 'FREE') window.location.href = '/dashboard';
+            else alert('Checkout coming soon - configure Stripe price IDs first');
+        }
+    </script>
+</body>
+</html>
