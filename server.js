@@ -16,6 +16,7 @@ const analyticsRoutes = require('./routes/analytics');
 const autoResponseRoutes = require('./routes/auto-response');
 const adsRoutes = require('./routes/ads');
 const dashboardRoutes = require('./routes/dashboard');
+const stripeRoutes = require('./routes/stripe');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -67,6 +68,7 @@ app.use('/api/content', contentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/auto-response', autoResponseRoutes);
 app.use('/api/ads', adsRoutes);
+app.use('/api/stripe', stripeRoutes);
 
 // Dashboard routes with auth
 app.use('/dashboard', adminAuth, dashboardRoutes);
