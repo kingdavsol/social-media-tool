@@ -51,7 +51,9 @@
     "playwright": "^1.40.0",
     "cheerio": "^1.0.0-rc.12",
     "natural": "^6.7.0",
-    "sentiment": "^6.2.0"
+    "sentiment": "^6.2.0",
+    "stripe": "^13.3.0",
+    "express-validator": "^7.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",
