@@ -1,6 +1,5 @@
 const express = require('express');
 const { SUBSCRIPTION_TIERS } = require('../lib/stripe');
-const logger = require('../config/logger');
 
 const router = express.Router();
 
@@ -19,7 +18,7 @@ router.get('/plans', (req, res) => {
       data: plans,
     });
   } catch (error) {
-    logger.error('Get plans error:', error);
+    console.error('Get plans error:', error);
     res.status(500).json({
       success: false,
       error: error.message,
@@ -27,16 +26,16 @@ router.get('/plans', (req, res) => {
   }
 });
 
-router.post('/checkout', async (req, res) => {
+router.post('/checkout', (req, res) => {
   try {
     const { tier } = req.body;
     res.json({
       success: true,
-      message: 'Checkout coming soon - configure Stripe price IDs first',
+      message: 'Checkout endpoint - configure Stripe keys in environment',
       tier
     });
   } catch (error) {
-    logger.error('Checkout error:', error);
+    console.error('Checkout error:', error);
     res.status(500).json({
       success: false,
       error: error.message,
