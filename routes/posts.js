@@ -5,6 +5,7 @@ const logger = require('../lib/logger');
 const { getDatabase } = require('../lib/database');
 const { validatePostRequest, isValidPostType, sanitizeText } = require('../lib/validation');
 const { getPostTypeDisplayName, batchArray } = require('../lib/helpers');
+const { checkPostLimit } = require('./subscriptionGate');
 
 /**
  * Get all scheduled posts
@@ -69,7 +70,7 @@ router.get('/:id', async (req, res) => {
 /**
  * Create and schedule a post
  */
-router.post('/', async (req, res) => {
+router.post('/', checkPostLimit(), async (req, res) => {
   try {
     const { title, content, postType, mediaUrls, accounts, scheduledTime, hashtags, mentions } = req.body;
 

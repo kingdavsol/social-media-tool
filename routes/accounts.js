@@ -6,6 +6,7 @@ const { getDatabase } = require('../lib/database');
 const { encrypt, decrypt } = require('../lib/encryption');
 const { isValidPlatform, isValidHandle } = require('../lib/validation');
 const { formatDate } = require('../lib/helpers');
+const { checkAccountLimit } = require('./subscriptionGate');
 
 /**
  * Get all connected accounts
@@ -55,7 +56,7 @@ router.get('/:id', async (req, res) => {
 /**
  * Add new account
  */
-router.post('/', async (req, res) => {
+router.post('/', checkAccountLimit(), async (req, res) => {
   try {
     const { platform, accountName, accountHandle, accountId, profilePictureUrl, accessToken, refreshToken, tokenExpiresAt, oauthScopes } = req.body;
 

@@ -17,6 +17,7 @@ const autoResponseRoutes = require('./routes/auto-response');
 const adsRoutes = require('./routes/ads');
 const dashboardRoutes = require('./routes/dashboard');
 const stripeRoutes = require('./routes/stripe');
+const { subscriptionGate, checkAccountLimit, checkPostLimit, requireFeature } = require('./routes/subscriptionGate');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -62,12 +63,13 @@ const adminAuth = basicAuth({
 });
 
 // API Routes (no auth for now, can add JWT later)
-app.use('/api/accounts', accountsRoutes);
-app.use('/api/posts', postsRoutes);
-app.use('/api/content', contentRoutes);
-app.use('/api/analytics', analyticsRoutes);
-app.use('/api/auto-response', autoResponseRoutes);
-app.use('/api/ads', adsRoutes);
+// Apply subscription gates
+app.use('/api/accounts', subscriptionGate, accountsRoutes);
+app.use('/api/posts', subscriptionGate, postsRoutes);
+app.use('/api/content', subscriptionGate, contentRoutes);
+app.use('/api/analytics', subscriptionGate, requireFeature('analytics'), analyticsRoutes);
+app.use('/api/auto-response', subscriptionGate, requireFeature('advanced-automation'), autoResponseRoutes);
+app.use('/api/ads', subscriptionGate, requireFeature('advanced-features'), adsRoutes);
 app.use('/api/stripe', stripeRoutes);
 
 // Dashboard routes with auth
